@@ -1,0 +1,33 @@
+Workspace
+
+
+app_service
+Application execution service.
+
+
+auth
+authentication services for kbase
+
+
+genome_annotation
+The genome annotation service provides automated gene annotation
+based on the RAST system. This deploys both client and service
+components.
+
+
+kbapi_common
+
+
+p3_seed
+
+
+typecomp
+The KBase Type Compiler consumes a type-document and produces a
+server and implementation libraries in one languages and client
+libraries in multiple supported languages.
+
+
+dev_container
+build and deployment environment
+
+
