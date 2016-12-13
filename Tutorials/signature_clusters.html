@@ -1,0 +1,193 @@
+<h1>Computing Signature Clusters: an Application of the Command-Line Tools</h1>
+<h2>Introduction: What is a Signature Cluster?</h2>
+In this tutorial, we show how to use a tool that we have created to
+help you locate clusters of genes that distinguish genomes from
+two designated sets of genomes.  For example, suppose that you have
+a set of genomes from a given species and a second set from different species
+in the same genus.  In this case, we might look for chromosomal clusters that occur in 
+most genomes from the specific genus, but almost never occur in genomes
+from a different species in the same genus.  This is just one of a growing set of tools
+you can use to access PATRIC data, but we think of it as extremely interesting.
+<p>
+So, the general operation we are implementing might be described as follows:
+<ol>
+<li>
+Define a set of closely-related genomes (usually a set of genomes
+from a single species).  Call this set <b>GS1</b>.
+<br><br>
+<li>
+Define a second set of genomes which will be used for comparison and
+call it <b>GS2</b>. Typically this would be a set establishing a "context".
+The usual contents of <b>GS2</b> would be genomes from the same genus,
+but different species. 
+<br><br>
+<li>
+Then define the notion of <i>signature family</i> as a protein family in
+which all members (or almost all members) occur in all genomes in <b>GS1</b>,
+but no (or very few) genomes in <b>GS2</b>.
+<br><br>
+<li>
+Finally, define a <i>signature cluster</i> as a set of instances of
+signature families that occur close to one another on the contigs
+of a genome in <b>GS1</b>.  Since a signature cluster contains only
+signature families, by definition it can occur in <b>GS1</b>, but only very seldom in 
+<b>GS2</b>.
+We will argue that the signature clusters are very effective for
+locating chromosomal clusters that are very local phylogentically and
+correspond to molecular machines that are quite different from those
+that include the core cellular machinery.  They are things like
+<br><br></ol>
+<ul>
+<li>virulence factors,
+<li>antibiotic fabrication mechanisms,
+<li>prophages,
+<li>special transportation cassets,
+<li> and so forth.
+</ul>
+<br>
+<h2>How to Compute Signature Clusters</h2>
+
+In this short tutorial we will compute signature clusters for
+<i>Streptococcus pyogenes</i>.  The actual computation can be done
+for any genus and species for which you have enough genomes (say,
+20 within the species and 20 from different species within the same genus).
+
+<h3> Step 1: Defining GS1 and GS2</h3>
+
+The following three lines of code create three tables encoding genome sets.
+We have included "head" statements to show that each row in each table contains two fields: a genome id and a genome name.
+<pre>
+	  p3-all-genomes --attr genome_name --eq 'genome_name,Streptococcus' > all.strep.genomes 
+	  head all.strep.genomes 
+	  genome.genome_id	genome.genome_name
+	  1313.7014	Streptococcus pneumoniae P310839-218
+	  208435.3	Streptococcus agalactiae 2603V/R
+	  171101.6	Streptococcus pneumoniae R6
+	  160490.10	Streptococcus pyogenes M1 GAS
+	  568814.3	Streptococcus suis BM407
+	  862971.3	Streptococcus anginosus C238
+	  888833.3	Streptococcus australis ATCC 700641
+	  864569.5	Streptococcus bovis ATCC 700338
+	  482234.3	Streptococcus canis FSL Z3-227
+
+	  p3-match --col 2 pyogenes < all.strep.genomes > pyogenes
+	  head pyogenes 
+	  genome.genome_id	genome.genome_name
+	  160490.10	Streptococcus pyogenes M1 GAS
+	  1314.192	Streptococcus pyogenes strain NGAS322
+	  798300.3	Streptococcus pyogenes MGAS15252
+	  864568.3	Streptococcus pyogenes ATCC 10782
+	  1314.198	Streptococcus pyogenes strain NGAS743
+	  1314.197	Streptococcus pyogenes strain NGAS596
+	  1314.196	Streptococcus pyogenes strain NGAS327
+	  1314.168	Streptococcus pyogenes strain 19615
+	  301451.4	Streptococcus pyogenes serotype M18 strain CPost
+	  
+	  p3-match --col 2 pyogenes --reverse < all.strep.genomes > not.pyogenes
+	  head not.pyogenes 
+	  genome.genome_id	genome.genome_name
+	  1313.7014	Streptococcus pneumoniae P310839-218
+	  208435.3	Streptococcus agalactiae 2603V/R
+	  171101.6	Streptococcus pneumoniae R6
+	  568814.3	Streptococcus suis BM407
+	  862971.3	Streptococcus anginosus C238
+	  888833.3	Streptococcus australis ATCC 700641
+	  864569.5	Streptococcus bovis ATCC 700338
+	  482234.3	Streptococcus canis FSL Z3-227
+	  862969.3	Streptococcus constellatus subsp. pharyngis C1050
+</pre>
+The first command looks at all of the PATRIC genomes, keeps only
+those which have 'Streptococcus' within the <i>genome_name</i> field,
+and writes out one line for each extracted <i>Streptococcus</i> genome.
+This is actually a fairly complex incantation, so we urge you to
+try to construct the corresponding command for a different species (say,
+<i>Staphylococcus</i>).
+<p>
+Then the <i>p3-match</i> commands create a list of <i>Streptococcus pyogenes</i>
+genomes and a set of <i>Streptococcus</i> genomes that are not from the  
+<i>pyogenes</i> species. 
+<p>
+Please construct corresponding sets for <i>Staphylococcus aureus</i>
+(that is, construct the two files <b>aureus</b> and <b>not.aureus</b>).
+
+<p>
+Once you have constructed your genome sets, verify that they include what
+appear to be a reasonable collection of genomes.
+
+<h3>Computing Signature Clusters</h3>
+
+ Now that we have <b>GS1</b> and <b>GS2</b> defined, we can compute the
+signature clusters using something like
+
+<pre>
+      p3-related-by-clusters --gs1 pyogenes  \
+                             --gs2 not.pyogenes \
+                             --sz1 20 \
+                             --sz2 20 \
+                             --min 0.8 \
+                             --max 0.1 \
+                             --iterations 2 \
+                             --output Strep
+</pre>
+Let us briefly discuss the process being requested:
+<ol>
+<li> First, we take 20 random genomes from <b>GS1</b>
+and 20 from <b>GS2</b> (these sizes are specified by <b>sz1</b> and <b>sz2</b>)
+Then, we compute the protein families that occur in at
+least 80% of the genomes in <b>GS1</b>, but none of the genomes in
+<b>GS2</b> (the thresholds are specified by the <b>min</b> and <b>max</b>
+arguments).  These are the <i>signature families</i> that we will use to
+search for <i>signature clusters</i>.
+<li> Then we compute the desired signature clusters, base on the reandomly selected
+genome sets.
+<li>We save the clusters computed; this is called a single <i>iteration</i>.
+We redo the selection of random genomes, computation of signature families, and
+computation of signature clusters (added to a growing set), until we
+have completed the requested number of iterations (in our example, we specified "2").
+</ol>
+<p>
+Thus, we build up a collection of signature clusters recorded in the designated ouput
+directory.
+
+<h3>Looking at the Results</h3>
+
+To look at the computed signature clusters, use something like
+<pre>
+      p3-format-results -d Strep | p3-aggregates-to-html > clusters.html
+      open clusters.html
+</pre> 
+The results will look something like this:
+<br>
+<br>
+<br>
+<img src="img/pic1.png"  border="2"/>
+<br>
+<br>
+<br>
+If you click on the feature ID, you will be taken to the Patric Feature Page for that feature:
+<img src="img/pic3.png"  border="2"/>
+<br>
+<br>
+<br>
+If you click the circled C on a feature, you will see a "Compare Regions" screen centered on that feature, like this:
+<img src="img/pic2.png" style="width: 40%: height: 40%"  border="2"/>
+<br>
+<br>
+<br>
+If you click on a family id, you will be taken to a Patric Family Page:
+<img src="img/pic4.png" border="2"/>
+<br>
+<br>
+<br>
+<h2> Summary </h2>
+
+We have implemented a tool that, given two sets of genomes, will compute
+the signature clusters that occur (or tend to occur) in genomes from
+one set but not in genomes from the other. The sets of genomes are
+tken from the current release of the PATRIC database.
+<p>
+We have illustrated one intended use: finding the signature clusters
+that distinguish a species from other species within a phylogenetic
+context (the genus).
+<p>
+ 
