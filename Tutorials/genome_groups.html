@@ -1,0 +1,100 @@
+<h1>
+How to create and access genome groups
+</h1>
+
+Creating a genome group in your workspace allows you to create logical
+groups of genomes for downstream comparative analysis. In this
+example, you will create two genome groups. One genome group will
+contain only Streptococcus aureus, and the second genome group will
+contain all Streptococcus genomes except those from Streptococcus
+aureus.
+<p>
+
+This example assumes familiarity with a few other commands in the CLI
+to create the input file containing the genomes to be put in the new
+genome group. You do not need to be familiar with these commands, just
+the format of the input file. The format of the input file is simply a
+list of genome ids, one per line with no other information in the
+file.
+<p>
+<pre>
+$ p3-all-genomes --in genome_name,aureus > Staphylococcus.aureus.genomes
+$ p3-all-genomes --in genome_name,Staphylococcus > Staphylococcus.all.genomes
+$ a_not_b Staphylococcus.all.genomes Staphylococcus.aureus.genomes > Staphylococcus.not.aureus.genomes
+
+$ wc *.genomes
+    9257   41089  399759 Staphylococcus.all.genomes
+    8383   36955  356756 Staphylococcus.aureus.genomes
+     876    4146   43099 Staphylococcus.not.aureus.genomes
+   18516   82190  799614 total
+</pre>
+<p>
+Let's take a quick look at a few entries in each file using the unix
+head command. In this case, the first five lines of each file are
+displayed. Notice that the header exists in two of the three files. It
+is not in the file created with the a_not_b command because the header
+appeared in both input files to the a_not_b command.
+<p>
+<pre>
+$ head -n 5 *.genomes
+==> Staphylococcus.all.genomes <==
+genome.genome_id
+904758.3
+904731.3
+904739.3
+904750.3
+
+==> Staphylococcus.aureus.genomes <==
+genome.genome_id
+904758.3
+904731.3
+904739.3
+904750.3
+
+==> Staphylococcus.not.aureus.genomes <==
+1000590.6
+1008454.3
+1034809.4
+1078083.3
+1115805.3
+</pre>
+
+<p>
+
+The input files to create genome groups are almost ready. The input to
+p3-put-genome-group is a single column file with the only values being
+genome ids. The header needs to be removed. We can easily do this with
+an editor, or use the unix grep command with the -v option. For this
+example, we will just edit the file with an editor and remove the
+header.
+<p>
+The p3-put-genome-group takes the list of genome ids on standard
+input. Using the unix cat command we can send the contents of our
+newly created files of genome ids to the p3-put-genome-group command
+with the following command.
+<p>
+<pre>
+$ cat Staphylococcus.not.aureus.genomes | p3-put-genome-group "Staphlococcus not aureus"
+$ cat Staphylococcus.aureus.genomes | p3-put-genome-group "Staphylococcus aureus"
+</pre>
+<p>
+
+The two newly created genome groups are now visible and usable in your
+workspace using on the PATRIC web site, as well as accessible using
+the command line interface.
+
+<pre>
+$ p3-get-genome-group "Staphylococcus aureus"
+904758.3
+904731.3
+904739.3
+904750.3
+904763.3
+904725.3
+904734.3
+904737.3
+904754.3
+904768.3
+&lt;...>
+</pre>
+

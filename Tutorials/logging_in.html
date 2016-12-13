@@ -1,0 +1,38 @@
+<h1>Logging in</h1>
+
+For operations on private data, such as that data stored in your
+workspace, you will need to be logged in. You can check to see if you
+are already logged in using the p3-whoami command:
+
+<pre>
+$ p3-whoami
+You are logged in as:
+brettin@patricbrc.org
+</pre>
+
+<p>
+If you were not logged in, when you run the p3-whoami command you
+would see that you are not logged in. If this were the case, you would
+not be able to upload to your workspace or see any of the data in your
+workspace for example.
+<p>
+<pre>
+$ p3-whoami
+You are not logged in.
+</pre>
+ 
+<p>
+
+If you are not logged in, you can do so using the p3-login
+command. Notice that your user name contains the suffix
+“@patricbrc.org”. This suffix is required so that your PATRIC
+credentials are used rather than your RAST credentials. 
+
+<pre>
+$ p3-login brettin@patricbrc.org
+Password: ****
+Logged in with username brettin@patricbrc.org
+$ p3-whoami
+You are logged in as:
+brettin@patricbrc.org
+</pre>

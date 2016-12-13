@@ -1,0 +1,55 @@
+<h1>
+Uploading data from the command line into your workspace
+</h1>
+
+The PATRIC workspace is a place where you can upload your data so that
+it can be integrated with existing public data in PATRIC while at the
+same time maintaining privacy. As an example, you can upload contigs
+to your workspace, annotate them using the PATRIC annotation service,
+and then compare the annotated results with publicly annotated genomes
+in PATRIC.
+<p>
+
+In this example, I am going to upload contigs from my mac to my
+workspace in PATRIC using the command line interface rather than using
+the web interface for uploading contigs to my workspace.
+<p>
+<h2>Uploading data</h2>
+
+The ws-create command is used to upload data to my workspace:
+
+<pre>
+$ ws-create -h
+ws-create.pl [-ahopu] [long options...] <name> <type> <filename>
+	     -p --permission   Permissions for folders created
+	     -u --useshock     Upload file to shock and store link in workspace
+	     -o --overwrite    Overwrite existing destination object
+	     --wsurl           Workspace URL
+	     -a --admin        Run as administrator
+	     -h --help         Show this usage message
+$ ws-create -u /brettin@patricbrc.org/home/MinhashDev/UC.MICU.02.30.fastq Reads /home/brettin/assemblies/UC.MICU.02.30.fastq
+</pre>
+<p>
+
+In this case, I used the -u option to tell the system to upload the genomes into the Shock bulk
+storage system; for any file larger than a few kilobytes we recommend that this option be used.
+<p>
+If I want to verify the uploaded reads, I can use do a listing on
+the folder that I uploaded the reads to.
+<p>
+<pre>
+$ ws-ls /brettin@patricbrc.org/home/MinhashDev
+
+Name                Owner                 Type       Moddate             Size       User perm Global perm
+UC.MICU.02.30.msh   brettin@patricbrc.org job_result 2016-10-01T03:04:01       1513 o         n          
+.UC.MICU.02.30.msh  brettin@patricbrc.org folder     2016-10-01T01:19:34          0 o         n          
+UC.MICU.02.30.fastq brettin@patricbrc.org reads      2016-09-30T21:34:12 8284314281 o         n    
+</pre>
+
+<p>
+
+The folder listing includes fields such as owner, the object's name
+(specified by first positional argument in the ws-create command) type
+(specified by the second positional argument) and permissions
+(specified by the third positional argument).
+
