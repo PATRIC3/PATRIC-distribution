@@ -9,16 +9,19 @@ auth
 authentication services for kbase
 
 
+awe_tools
+admin tools for awe
+
+
 genome_annotation
-The genome annotation service provides automated gene annotation
-based on the RAST system. This deploys both client and service
-components.
+The genome annotation service provides automated gene annotation based
+on the RAST system. This deploys both client and service components.
 
 
 handle_service
 An application programming interface for managing files. This service
-provides an AbstractHandle that can be used to reference data in
-different stores. This deploys both the client and service.
+provides an AbstractHandle that can be used to reference data in different
+stores. This deploys both the client and service.
 
 
 kbapi_common
@@ -28,9 +31,9 @@ p3_seed
 
 
 typecomp
-The KBase Type Compiler consumes a type-document and produces a
-server and implementation libraries in one languages and client
-libraries in multiple supported languages.
+The KBase Type Compiler consumes a type-document and produces a server
+and implementation libraries in one languages and client libraries in
+multiple supported languages.
 
 
 dev_container

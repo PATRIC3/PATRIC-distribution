@@ -1,4 +1,4 @@
-RASTtk-Distribution
+PATRIC-Distribution
 ===================
 
-KBase distribution module for RASTtk
+KBase distribution module for PATRIC
