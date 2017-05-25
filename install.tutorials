@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync --exclude '*~' -arv Tutorials/. /vol/ross/tutorial.theseed.org/PATRIC-Tutorials/.
