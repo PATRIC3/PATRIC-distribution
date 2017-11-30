@@ -5,10 +5,6 @@ app_service
 Application execution service.
 
 
-auth
-authentication services for kbase
-
-
 awe_tools
 admin tools for awe
 
@@ -28,13 +24,15 @@ different stores. This deploys both the client and service.
 kbapi_common
 
 
+p3_auth
+authentication
+
+
 p3_seed
 
 
 typecomp
-The KBase Type Compiler consumes a type-document and produces a
-server and implementation libraries in one languages and client
-libraries in multiple supported languages.
+PATRIC Type Compiler
 
 
 dev_container
