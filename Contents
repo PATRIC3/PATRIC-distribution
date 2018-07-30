@@ -5,6 +5,10 @@ app_service
 Application execution service.
 
 
+assembly
+An extensible framework for genome assembly.
+
+
 awe_tools
 admin tools for awe
 
