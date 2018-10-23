@@ -22,11 +22,12 @@ provides an AbstractHandle that can be used to reference data in different
 stores. This deploys both the client and service.
 
 
-kbapi_common
-
-
 p3_auth
 authentication
+
+
+p3_deployment
+Deployment tools for PATRIC.
 
 
 p3_seed
