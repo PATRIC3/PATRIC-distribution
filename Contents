@@ -5,32 +5,38 @@ app_service
 Application execution service.
 
 
-assembly
-An extensible framework for genome assembly.
-
-
-awe_tools
-admin tools for awe
-
-
 genome_annotation
-
-
-handle_service
-An application programming interface for managing files. This service
-provides an AbstractHandle that can be used to reference data in different
-stores. This deploys both the client and service.
 
 
 p3_auth
 authentication
 
 
+p3_code
+SEEDtk Fragment Shared with PATRIC
+
+
+p3_core
+Core library modules & scripts for PATRIC API integration
+
+
 p3_deployment
 Deployment tools for PATRIC.
 
 
-p3_seed
+seed_core
+Core code exported from SEED CVS.
+
+
+seed_gjo
+Gary Olsen code exported from SEED CVS
+
+
+seed_rast
+RAST related code exported from SEED CVS
+
+
+seed_svr
 
 
 typecomp
