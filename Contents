@@ -12,6 +12,10 @@ p3_auth
 authentication
 
 
+p3_cli
+PATRIC command line interface scripts
+
+
 p3_code
 SEEDtk Fragment Shared with PATRIC
 
