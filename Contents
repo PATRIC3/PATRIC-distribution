@@ -28,6 +28,9 @@ p3_deployment
 Deployment tools for PATRIC.
 
 
+sars2_assembly
+
+
 seed_core
 Core code exported from SEED CVS.
 
