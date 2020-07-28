@@ -4,4 +4,4 @@
 
 The PATRIC CLI distribution is available at the [PATRIC github releases page](https://github.com/PATRIC3/PATRIC-distribution/releases). New releases typically come out for MacOS first. We currently also support Debian/Ubuntu Linux and plan support for CentOS Linux and Windows.
 
-The PATRIC CLI tutorial is [available here](http://htmlpreview.github.io/?https://github.com/olsonanl/Web/blob/master/Web/Tutorials/p3_CLI.html).
+The PATRIC CLI tutorial is [available here](https://docs.patricbrc.org/cli_tutorial/index.html).
