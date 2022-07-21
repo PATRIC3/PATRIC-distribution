@@ -10,4 +10,6 @@ Please note: If you run into permission problems starting the PATRIC app on your
 
 To do this, start Terminal.app and use Cmd-N if necessary to bring up a new window. Then run the following command in the Terminal window to set up the window for using the PATRIC CLI:
 
-  source /Applications/PATRIC.app/user-env.sh
+```
+source /Applications/PATRIC.app/user-env.sh
+```
